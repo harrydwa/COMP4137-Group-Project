@@ -1,7 +1,8 @@
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
+import java.io.*;
+import java.security.KeyFactory;
 import java.security.MessageDigest;
 import java.security.PublicKey;
+
 
 public class Transaction {
     private String transactionId;
@@ -39,6 +40,9 @@ public class Transaction {
         }
     }
 
+
+
+
     private static String bytesToHex(byte[] bytes) {
         StringBuilder hexString = new StringBuilder();
         for (byte b :bytes) {
@@ -50,6 +54,37 @@ public class Transaction {
         }
         return hexString.toString();
     }
+
+    // Serialize transaction for Merkle tree
+    private byte[] serializeTransaction() {
+        try {
+            ByteArrayOutputStream Boutput = new ByteArrayOutputStream();
+            DataOutputStream Doutput = new DataOutputStream(Boutput);
+
+            byte[] inputBytes = input.getEncoded();
+            Doutput.writeInt(inputBytes.length);
+            Doutput.write(inputBytes);
+
+
+            byte[] outputBytes = output.getEncoded();
+            Doutput.writeInt(outputBytes.length);
+            Doutput.write(outputBytes);
+
+
+            Doutput.writeDouble(data.getAmount());
+
+
+            byte[] signatureBytes = data.getSignature();
+            Doutput.writeInt(signatureBytes.length);
+            Doutput.write(signatureBytes);
+
+            return Boutput.toByteArray();
+
+        } catch (IOException e) {
+            throw new RuntimeException("Serialization failed", e);
+        }
+    }
+
 
     // Getters
     public String getTransactionId() {
