@@ -25,9 +25,12 @@ https://medium.com/@AlexanderObregon/what-is-sha-256-hashing-in-java-0d46dfb8388
 
 Verification:
 https://jenkov.com/tutorials/java-cryptography/index.html#verifying-a-signature
+
 Convert String to Byte:
 https://www.baeldung.com/java-string-to-byte-array
+
 calculate log base 2 of an Integer in Java:
 https://www.geeksforgeeks.org/how-to-calculate-log-base-2-of-an-integer-in-java/
+
 Concept about Merkle tree:
 https://medium.com/@vinayprabhu19/merkel-tree-in-java-b45093c8c6bd
