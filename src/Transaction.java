@@ -18,7 +18,7 @@ public class Transaction {
     }
 
     //hashing input, output, amount and signature
-    private String calculateTransactionId() {
+    public String calculateTransactionId() {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             //getEncoded: converts the public key into a byte array
@@ -43,7 +43,7 @@ public class Transaction {
 
 
 
-    private static String bytesToHex(byte[] bytes) {
+    public static String bytesToHex(byte[] bytes) {
         StringBuilder hexString = new StringBuilder();
         for (byte b :bytes) {
             String hex = Integer.toHexString(0xff & b);
@@ -56,7 +56,7 @@ public class Transaction {
     }
 
     // Serialize transaction for Merkle tree
-    private byte[] serializeTransaction() {
+    public byte[] serializeTransaction() {
         try {
             ByteArrayOutputStream Boutput = new ByteArrayOutputStream();
             DataOutputStream Doutput = new DataOutputStream(Boutput);
