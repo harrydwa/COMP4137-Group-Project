@@ -45,10 +45,10 @@ public class Main {
         System.out.println("The height for index 1 is "+tree.getHeight(1) );
         System.out.println("The height for index 5 is "+tree.getHeight(5) );
         System.out.println("The height for index 7 is "+tree.getHeight(7) );
-        System.out.println("The height is "+tree.getValue(1) );
-        System.out.println("The height is "+tree.getValue(2) );
-        System.out.println("The height is "+tree.getValue(3) );
-        System.out.println("The height is "+tree.getValue(4) );
+        System.out.println("The value for index 1 is "+tree.getValue(1) );
+        System.out.println("The value for index 2 is "+tree.getValue(2) );
+        System.out.println("The value for index 3 is "+tree.getValue(3) );
+        System.out.println("The value for index 4 is "+tree.getValue(4) );
 
 
 
