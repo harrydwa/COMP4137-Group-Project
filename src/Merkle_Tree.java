@@ -1,3 +1,4 @@
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class Merkle_Tree {
     }
 
     public int getChildren1(int i) {
-        if (i >= NodeList.size()) {
+        if (i >= NodeList.size()||i<1) {
             return 0;
         }
 
@@ -158,9 +159,9 @@ public class Merkle_Tree {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
 
-            byte[] inputInBytes = digest.digest(inputInString.getBytes());
+            byte[] inputInBytes = digest.digest(inputInString.getBytes(StandardCharsets.UTF_8));
 
-            StringBuilder hexString = new StringBuilder();
+            StringBuilder hexString = new StringBuilder(2*inputInString.length());
             for (byte b : inputInBytes) {
                 String hex = Integer.toHexString(0xff & b);
                 if (hex.length() == 1) {
@@ -172,7 +173,5 @@ public class Merkle_Tree {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 }
