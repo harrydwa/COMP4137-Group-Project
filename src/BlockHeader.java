@@ -35,4 +35,26 @@ public class BlockHeader {
         }
     }
 
+    public String mineBlock(int difficulty) {
+        String prefixString = new String(new char[difficulty]).replace('\0', '0'); // "00000" for difficulty 5
+        StringBuilder targetBuilder = new StringBuilder("0000"); // 64 hex characters
+        for (int i = 0; i < 60; i++) {
+            targetBuilder.append('f');
+        }
+        String target = targetBuilder.toString();
+
+        while (true) {
+            hash = calculateHash(); // combined data information
+
+            // Check both prefix and target conditions
+            if (hash.substring(0, difficulty).equals(prefixString) && // Quick check - just compare first few characters
+                    hash.compareTo(target) < 0) {                     // Full check - must compare entire hash string
+                System.out.println("Target: " + target);
+                System.out.println("Block mined! Nonce: " + nonce + ", Hash: " + hash);
+                return hash;
+            }
+            nonce++;
+        }
+    }
+
 }

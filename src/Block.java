@@ -21,6 +21,6 @@ public class Block {
     public long getTimestamp() { return header.timeStamp; }
     public int getNonce() { return header.nonce; }
     public List<Transaction> getTransactions() { return transactions; }
-
+    public BlockHeader getHeader() { return header; }
 
 }
