@@ -17,9 +17,6 @@ public class Main {
         Transaction tx03=bob.createTransaction(alice.getPublicKey(), 15.0);
         Transaction tx04=bob.createTransaction(alice.getPublicKey(), 20.0);
 
-
-
-
         // Print transaction details
         System.out.println("Transaction ID: " + tx01.getTransactionId());
         System.out.println("Amount: " + tx01.getData().getAmount());
@@ -50,15 +47,31 @@ public class Main {
         System.out.println("The value for index 3 is "+tree.getValue(3) );
         System.out.println("The value for index 4 is "+tree.getValue(4) );
 
+        // Create and mine genesis block
+        System.out.println("\nCreating and mining first block...");
+        Block firstBlock = new Block("0", bytelist, "First Block");
 
+        // Print genesis block details
+        System.out.println("\nFirst Block Details:");
+        System.out.println("Block Hash: " + firstBlock.getHash());
+        System.out.println("Previous Hash: " + firstBlock.getPreviousHash());
+        System.out.println("Merkle Root: " + firstBlock.getMerkleRoot());
+        System.out.println("Timestamp: " + firstBlock.getTimestamp());
+        System.out.println("Nonce: " + firstBlock.getNonce());
+        System.out.println("Number of Transactions: " + firstBlock.getTransactions().size());
 
+        // Create and mine second block
+        System.out.println("\nCreating and mining second block...");
+        Block secondBlock = new Block(firstBlock.getHash(), bytelist, "Second Block");
 
-
-
-
-
-
-
+        // Print second block details
+        System.out.println("\nSecond Block Details:");
+        System.out.println("Block Hash: " + secondBlock.getHash());
+        System.out.println("Previous Hash: " + secondBlock.getPreviousHash());
+        System.out.println("Merkle Root: " + secondBlock.getMerkleRoot());
+        System.out.println("Timestamp: " + secondBlock.getTimestamp());
+        System.out.println("Nonce: " + secondBlock.getNonce());
+        System.out.println("Number of Transactions: " + secondBlock.getTransactions().size());
 
     }
 }
