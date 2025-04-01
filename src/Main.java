@@ -50,7 +50,7 @@ public class Main {
         // Create and mine genesis block
         System.out.println("\nCreating and mining first block...");
         Block firstBlock = new Block("0", bytelist, "First Block");
-        System.out.println("Mining with difficulty 4...");
+        System.out.println("Mining with prefix 4...");
         firstBlock.getHeader().mineBlock(4);
 
         // Print genesis block details
@@ -65,7 +65,7 @@ public class Main {
         // Create and mine second block
         System.out.println("\nCreating and mining second block...");
         Block secondBlock = new Block(firstBlock.getHash(), bytelist, "Second Block");
-        System.out.println("Mining with difficulty 4...");
+        System.out.println("Mining with prefix 4...");
         secondBlock.getHeader().mineBlock(4);
 
         // Print second block details
