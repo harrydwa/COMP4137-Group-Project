@@ -23,14 +23,14 @@ public class IntegrityTest {
         SimulateFalsifyTransaction(tx1, 100.0);
 
         // Verify transaction integrity
-        System.out.println("Is transaction valid now after falsifying? " + verifyTransactionIntegrity(tx1));
+        System.out.println("Is the transaction being falsified? " + verifyTransactionIntegrity(tx1));
         System.out.println();
 
         // Falsify a block, trying to change the string data
         SimulateFalsifyBlock(block, "Falsified the original Block Data");
 
         // Verify block integrity
-        System.out.println("Is block valid now after falsifying? " + verifyBlockIntegrity(block));
+        System.out.println("Is the block being falsified? " + verifyBlockIntegrity(block));
     }
 
     public static void SimulateFalsifyTransaction(Transaction transaction, double newAmount) {
@@ -39,7 +39,7 @@ public class IntegrityTest {
         // Falsify the transaction amount
         transaction.getData().setAmount(newAmount);
 
-        System.out.println("We have falsified the transaction amount " + originalAmount
+        System.out.println("We have falsified the transaction amount " + "[" + originalAmount + "]"
                 + " of transactionId: " + transaction.getTransactionId() + " to " + "[" + newAmount + "]");
     }
 
@@ -61,7 +61,7 @@ public class IntegrityTest {
         System.out.println("Original Transaction ID: " + originalTransactionId);
         System.out.println("Current Transaction ID: " + currentTransactionId);
 
-        return originalTransactionId.equals(currentTransactionId);
+        return !originalTransactionId.equals(currentTransactionId);
     }
 
     public static boolean verifyBlockIntegrity(Block block) {
@@ -74,6 +74,6 @@ public class IntegrityTest {
         System.out.println("Original Merkle Root: " + originalMerkleRoot);
         System.out.println("Current Merkle Root: " + currentMerkleRoot);
 
-        return originalMerkleRoot.equals(currentMerkleRoot);
+        return !originalMerkleRoot.equals(currentMerkleRoot);
     }
 }
