@@ -17,7 +17,7 @@ public class IntegrityTest {
         transactions.add(tx2);
 
         // Create a block
-        Block block = new Block("0", transactions, "Block Data");
+        Block block = new Block("0", transactions, "Block Initial Data");
 
         // Falsify the transaction tx1, trying to change the amount from 5.0 to 100.0
         SimulateFalsifyTransaction(tx1, 100.0);
