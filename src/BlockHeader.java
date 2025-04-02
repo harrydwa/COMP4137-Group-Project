@@ -1,3 +1,4 @@
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -21,21 +22,28 @@ public class BlockHeader {
     }
 
     public String calculateHash() {
-        String dataToHash = previousHash + timeStamp + nonce + data;
+        String dataToHash = previousHash
+                + Long.toString(timeStamp)
+                + Integer.toString(nonce)
+                + data;
+        MessageDigest digest = null;
+        byte[] bytes = null;
         try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] bytes = digest.digest(dataToHash.getBytes(StandardCharsets.UTF_8));
-            StringBuilder buffer = new StringBuilder();
-            for (byte b : bytes) {
-                buffer.append(String.format("%02x", b)); // format byte as hex string
-            }
-            return buffer.toString();
+            digest = MessageDigest.getInstance("SHA-256");
+            bytes = digest.digest(dataToHash.getBytes(StandardCharsets.UTF_8));
+
         } catch (NoSuchAlgorithmException ex) {
             throw new RuntimeException("Error calculating hash", ex);
         }
+        StringBuilder buffer = new StringBuilder();
+        for (byte b : bytes) {
+            buffer.append(String.format("%02x", b)); // format byte as hex string
+        }
+        return buffer.toString();
+
     }
 
-    public void mineBlock(int prefix) {
+    public String mineBlock(int prefix) {
         String prefixString = new String(new char[prefix]).replace('\0', '0'); // "00000" for difficulty 5
         StringBuilder targetBuilder = new StringBuilder("0000"); // 64 hex characters
         for (int i = 0; i < 60; i++) {
@@ -43,16 +51,12 @@ public class BlockHeader {
         }
         String target = targetBuilder.toString();
 
-        while (true) {
-            hash = calculateHash(); // combined data information
-
-            // Check both prefix and target conditions
-            if (hash.substring(0, prefix).equals(prefixString) && // Quick check - just compare first few characters
-                    hash.compareTo(target) < 0) {                     // Full check - must compare entire hash string
-                return;
-            }
+        while (!hash.substring(0, prefix).equals(prefixString) &&  // Quick check - just compare first few characters
+                hash.compareTo(target) >= 0) {                     // Full check - must compare entire hash string
+            hash = calculateHash();
             nonce++;
         }
+        return hash;
     }
 
 }
