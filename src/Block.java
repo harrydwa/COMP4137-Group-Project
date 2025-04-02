@@ -22,5 +22,6 @@ public class Block {
     public int getNonce() { return header.nonce; }
     public List<Transaction> getTransactions() { return transactions; }
     public BlockHeader getHeader() { return header; }
+    public Merkle_Tree getMerkleTree() { return merkleTree; }
 
 }

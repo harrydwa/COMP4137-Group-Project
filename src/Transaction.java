@@ -40,9 +40,6 @@ public class Transaction {
         }
     }
 
-
-
-
     public static String bytesToHex(byte[] bytes) {
         StringBuilder hexString = new StringBuilder();
         for (byte b :bytes) {

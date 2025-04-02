@@ -11,6 +11,11 @@ public class TransactionData {
         return amount;
     }
 
+    // use for integrity test
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
     public byte[] getSignature() {
         return signature;
     }
