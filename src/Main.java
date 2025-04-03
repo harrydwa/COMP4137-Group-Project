@@ -11,11 +11,30 @@ public class Main {
         User_Wallet alice = new User_Wallet();
         User_Wallet bob = new User_Wallet();
 
-        // Alice creates a transaction to Bob
         Transaction tx01 = alice.createTransaction(bob.getPublicKey(), 5.0);
-        Transaction tx02= alice.createTransaction(bob.getPublicKey(), 10.0);
-        Transaction tx03=bob.createTransaction(alice.getPublicKey(), 15.0);
-        Transaction tx04=bob.createTransaction(alice.getPublicKey(), 20.0);
+        Transaction tx02 = alice.createTransaction(bob.getPublicKey(), 10.0);
+        Transaction tx03 = bob.createTransaction(alice.getPublicKey(), 15.0);
+        Transaction tx04 = bob.createTransaction(alice.getPublicKey(), 20.0);
+        System.out.println("\nTransaction-Level Verification:");
+        System.out.println("Is Alice sender in tx1? " + tx01.isInput(alice.getPublicKey()));
+        System.out.println("Is Bob receiver in tx1? " + tx01.isOutput(bob.getPublicKey()));
+
+        // Demonstrate wallet-level usage
+        System.out.println("\nAlice's Account Summary:");
+        printWalletStatus(alice);
+
+        System.out.println("\nBob's Account Summary:");
+        printWalletStatus(bob);
+        System.out.println("\nAlice's Transactions:");
+        alice.getTransactions().forEach(tx ->
+                System.out.println("ID: " + tx.getTransactionId() +
+                        ", Amount: " + tx.getData().getAmount()));
+
+        System.out.println("\nBob's Transactions:");
+        bob.getTransactions().forEach(tx ->
+                System.out.println("ID: " + tx.getTransactionId() +
+                        ", Amount: " + tx.getData().getAmount()));
+
 
         // Print transaction details
         System.out.println("Transaction ID: " + tx01.getTransactionId());
@@ -77,5 +96,17 @@ public class Main {
         System.out.println("Nonce: " + secondBlock.getNonce());
         System.out.println("Number of Transactions: " + secondBlock.getTransactions().size());
 
+    }
+
+    private static void printWalletStatus(User_Wallet wallet) {
+        System.out.println("Total Sent: " + wallet.getTransactionsWhereSender().size() + " transactions");
+        wallet.getTransactionsWhereSender().forEach(tx ->
+                System.out.println("  Sent " + tx.getData().getAmount() + " to "));
+
+        System.out.println("Total Received: " + wallet.getTransactionsWhereReceiver().size() + " transactions");
+        wallet.getTransactionsWhereReceiver().forEach(tx ->
+                System.out.println("  Received " + tx.getData().getAmount() + " from " ));
+
+        System.out.println("Current Balance: " + wallet.getBalance());
     }
 }

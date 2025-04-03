@@ -15,6 +15,7 @@ public class Transaction {
         this.output = output;
         this.data = new TransactionData(amount, signature);
         this.transactionId = calculateTransactionId(); // hash of the transaction
+        this.addToParticipantWallets();
     }
 
     //hashing input, output, amount and signature
@@ -39,6 +40,9 @@ public class Transaction {
             throw new RuntimeException("Error calculating transaction ID", e);
         }
     }
+
+
+
 
     public static String bytesToHex(byte[] bytes) {
         StringBuilder hexString = new StringBuilder();
@@ -82,6 +86,18 @@ public class Transaction {
         }
     }
 
+    private void addToParticipantWallets() {
+        User_Wallet senderWallet = User_Wallet.getWalletByPublicKey(input);
+        User_Wallet receiverWallet = User_Wallet.getWalletByPublicKey(output);
+
+        if (senderWallet != null) {
+            senderWallet.addTransaction(this);
+        }
+        if (receiverWallet != null) {
+            receiverWallet.addTransaction(this);
+        }
+    }
+
 
     // Getters
     public String getTransactionId() {
@@ -98,5 +114,20 @@ public class Transaction {
 
     public TransactionData getData() {
         return data;
+    }
+
+    public boolean isInput(PublicKey key) {
+        return compareKeys(this.input, key);
+    }
+
+    public boolean isOutput(PublicKey key) {
+        return compareKeys(this.output, key);
+    }
+
+    private boolean compareKeys(PublicKey key1, PublicKey key2) {
+        return java.util.Arrays.equals(
+                key1.getEncoded(),
+                key2.getEncoded()
+        );
     }
 }
