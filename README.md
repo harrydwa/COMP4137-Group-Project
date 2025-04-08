@@ -14,6 +14,7 @@ Generating key + Key algorithm:
 https://blog.csdn.net/qq_36319965/article/details/122564782
 [https://jenkov.com/tutorials/java-cryptography/index.html](https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/security/KeyPairGenerator.html)
 https://www.jianshu.com/p/676a0eb33d31
+https://blog.csdn.net/mafei852213034/article/details/53319908 for X509EncodedKeySpec、PKCS8EncodedKeySpec for public and private key storage and retrieval
 
 Digital signature:
 https://metamug.com/article/security/sign-verify-digital-signature-ecdsa-java.html#google_vignette
@@ -21,7 +22,7 @@ https://metamug.com/article/security/sign-verify-digital-signature-ecdsa-java.ht
 Hashing Transaction 
 https://blog.csdn.net/cherry_chenrui/article/details/99412886
 https://learn.microsoft.com/en-us/dotnet/api/java.security.messagedigest.update?view=net-android-34.0
-https://medium.com/@AlexanderObregon/what-is-sha-256-hashing-in-java-0d46dfb83888 for converting bytes array to hexademical string 
+https://medium.com/@AlexanderObregon/what-is-sha-256-hashing-in-java-0d46dfb83888 for converting bytes array to hexadecimal string 
 
 Verification:
 https://jenkov.com/tutorials/java-cryptography/index.html#verifying-a-signature
