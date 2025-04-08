@@ -38,6 +38,7 @@ public class User_Wallet {
     private void saveToFile() throws IOException {
         //transactions is not saved here but will add back to the list of transaction once the transaction txt is loaded
         try (PrintWriter writer = new PrintWriter(new FileWriter(WALLET_FILE, true))) {
+            //no need to add X509/PKCS8 as it already returns the key in its standard encoded format (PKCS#8 for private keys, X.509 for public keys)
             String pubKey = Base64.getEncoder().encodeToString(publicKey.getEncoded());
             String privKey = Base64.getEncoder().encodeToString(privateKey.getEncoded());
             writer.println(walletName + "|" + pubKey + "|" + privKey);
