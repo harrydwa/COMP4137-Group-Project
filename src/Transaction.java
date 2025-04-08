@@ -35,7 +35,6 @@ public class Transaction {
         this.transactionId = transactionId;
         this.addToParticipantWallets();
         allTransactions.add(this);
-        // No saveToFile() call here
     }
 
     private void saveToFile() {
@@ -60,7 +59,7 @@ public class Transaction {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split("\\|");
-                PublicKey sender = kf.generatePublic(new X509EncodedKeySpec(
+                PublicKey sender = kf.generatePublic(new X509EncodedKeySpec( //rehydrate key from storage
                         Base64.getDecoder().decode(parts[0])));
                 PublicKey receiver = kf.generatePublic(new X509EncodedKeySpec(
                         Base64.getDecoder().decode(parts[1])));

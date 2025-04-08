@@ -35,8 +35,8 @@ public class User_Wallet {
         walletRegistry.put(pubKey, this);
     }
 
-    // Modified save format
     private void saveToFile() throws IOException {
+        //transactions is not saved here but will add back to the list of transaction once the transaction txt is loaded
         try (PrintWriter writer = new PrintWriter(new FileWriter(WALLET_FILE, true))) {
             String pubKey = Base64.getEncoder().encodeToString(publicKey.getEncoded());
             String privKey = Base64.getEncoder().encodeToString(privateKey.getEncoded());
