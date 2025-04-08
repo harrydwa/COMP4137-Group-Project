@@ -66,8 +66,8 @@ public class UI {
                 System.out.println("Integrity Verification");
 
                 //Integrity Verification
-                IntegrityTest test = new IntegrityTest();
-                test.main(stringArg);
+//                IntegrityTest test = new IntegrityTest();
+//                test.main(stringArg);
 
                 while (!back.equals("back")) {
                     System.out.println("Type 'back' to return home screen: ");
