@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 public class Block {
@@ -6,7 +8,7 @@ public class Block {
     private List<Transaction> transactions;
     private Merkle_Tree merkleTree;
 
-    public Block(String previousHash, List<Transaction> transactions, String data) {
+    public Block(String previousHash, List<Transaction> transactions, String data) throws IOException {
         this.transactions = transactions;
         this.header = new BlockHeader(previousHash, data);
         this.merkleTree = new Merkle_Tree(transactions);

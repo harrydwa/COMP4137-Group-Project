@@ -26,6 +26,9 @@ public class Transaction {
         allTransactions.add(this);
         saveToFile();  // Directly save without condition
     }
+    public static List<Transaction> getTransactionList() {
+        return allTransactions;
+    }
 
     // Private constructor for LOADED transactions
     private Transaction(PublicKey input, PublicKey output, double amount, byte[] signature, String transactionId) {
