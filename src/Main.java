@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -5,7 +6,7 @@ public class Main {
         try {
             // Load existing data
             User_Wallet.loadAllWallets();
-            Transaction.loadAllTransactions();
+//            Transaction.loadAllTransactions();
             List<Transaction> allTransactions = Transaction.getTransactionList();
 
             // Get or create wallets
@@ -38,7 +39,25 @@ public class Main {
 //            merkleTree.validmerkletree();
             System.out.println(merkleTree.getRoot());
 
+//            // Create transactions
+//            List<Transaction> transactions = new ArrayList<>();
+//            transactions.add(new Transaction(alice.getPublicKey(), bob.getPublicKey(), 10.0, alice.sign(10.0)));
+//            transactions.add(new Transaction(alice.getPublicKey(), bob.getPublicKey(), 20.0, alice.sign(20.0)));
 
+            // Create a block
+            Block block = new Block("previousHash", allTransactions, "Block Data");
+            block.saveBlock("block1.txt");
+            System.out.println("\nBlock saved to file.");
+
+            // Load the block from the file
+            Block loadedBlock = Block.loadBlock("block1.txt");
+            System.out.println("Loaded Block Details:");
+            System.out.println("Hash: " + loadedBlock.getHash());
+            System.out.println("Previous Hash: " + loadedBlock.getPreviousHash());
+            System.out.println("Merkle Root: " + loadedBlock.getMerkleRoot());
+            System.out.println("Timestamp: " + loadedBlock.getTimestamp());
+            System.out.println("Nonce: " + loadedBlock.getNonce());
+            System.out.println("Transactions: " + loadedBlock.getTransactions().size());
 
         } catch (Exception e) {
             e.printStackTrace();
