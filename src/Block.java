@@ -18,7 +18,7 @@ public class Block {
         this.transactions = transactions;
         this.header = new BlockHeader(previousHash, data);
         this.merkleTree = new Merkle_Tree(transactions);
-        this.merkleTree.calculate();
+//        this.merkleTree.calculate();
         this.header.merkleRoot = this.merkleTree.getRoot();
         this.header.hash = this.header.calculateHash();
     }

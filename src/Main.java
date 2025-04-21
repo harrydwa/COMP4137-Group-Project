@@ -39,11 +39,6 @@ public class Main {
 //            merkleTree.validmerkletree();
             System.out.println(merkleTree.getRoot());
 
-//            // Create transactions
-//            List<Transaction> transactions = new ArrayList<>();
-//            transactions.add(new Transaction(alice.getPublicKey(), bob.getPublicKey(), 10.0, alice.sign(10.0)));
-//            transactions.add(new Transaction(alice.getPublicKey(), bob.getPublicKey(), 20.0, alice.sign(20.0)));
-
             // Create a block
             Block block = new Block("previousHash", allTransactions, "Block Data");
             block.saveBlock("block1.txt");
