@@ -23,8 +23,8 @@ public class Transaction {
         this.data = new TransactionData(amount, signature);
         this.transactionId = calculateTransactionId();
         this.addToParticipantWallets();
-        allTransactions.add(this);
-        saveToFile();  // Directly save without condition
+        allTransactions.add(this); // Add to static list
+        saveToFile();
     }
 
     public static List<Transaction> getTransactionList() {
@@ -37,8 +37,7 @@ public class Transaction {
         this.output = output;
         this.data = new TransactionData(amount, signature);
         this.transactionId = transactionId;
-        this.addToParticipantWallets();
-        allTransactions.add(this);
+        this.addToParticipantWallets(); // Link to wallets but don't add to static list
     }
 
     private void saveToFile() {
@@ -73,28 +72,30 @@ public class Transaction {
 
 
     public static List<Transaction> loadAllTransactions() throws Exception {
-        if (!allTransactions.isEmpty()) return allTransactions;
-
-        List<Transaction> loaded = new ArrayList<>();
+        allTransactions.clear(); // Clear existing transactions
         KeyFactory kf = KeyFactory.getInstance("EC");
+        List<Transaction> loaded = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(TX_FILE))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split("\\|");
-                PublicKey sender = kf.generatePublic(new X509EncodedKeySpec( //rehydrate key from storage
-                        Base64.getDecoder().decode(parts[0])));
-                PublicKey receiver = kf.generatePublic(new X509EncodedKeySpec(
-                        Base64.getDecoder().decode(parts[1])));
+                PublicKey sender = kf.generatePublic(
+                        new X509EncodedKeySpec(Base64.getDecoder().decode(parts[0]))
+                );
+                PublicKey receiver = kf.generatePublic(
+                        new X509EncodedKeySpec(Base64.getDecoder().decode(parts[1]))
+                );
                 double amount = Double.parseDouble(parts[2]);
                 byte[] signature = Base64.getDecoder().decode(parts[3]);
                 String txId = parts[4];
 
-                loaded.add(new Transaction(sender, receiver, amount, signature, txId));
+                Transaction tx = new Transaction(sender, receiver, amount, signature, txId);
+                loaded.add(tx);
             }
         }
-        allTransactions = loaded;
-        return loaded;
+        allTransactions.addAll(loaded); // Add all loaded transactions
+        return allTransactions;
     }
 
     public static List<Transaction> getAllTransactions() {

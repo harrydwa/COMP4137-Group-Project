@@ -12,7 +12,7 @@ public class User_Wallet {
     private List<Transaction> transactions;
     private String walletName;
     private static final String WALLET_FILE = "wallets.txt";
-    private static Map<PublicKey, User_Wallet> walletRegistry = new HashMap<>();     // Static registry to track all wallets by public key
+    private static Map<String, User_Wallet> walletRegistry = new HashMap<>();     // Static registry to track all wallets by public key
 
 
 
@@ -21,7 +21,8 @@ public class User_Wallet {
         this.walletName = name;
         generateKeyPair();
         this.transactions = new ArrayList<>();
-        walletRegistry.put(publicKey, this);
+        String publicKeyStr = Base64.getEncoder().encodeToString(publicKey.getEncoded());
+        walletRegistry.put(publicKeyStr, this);
         saveToFile();
     }
 
@@ -32,7 +33,8 @@ public class User_Wallet {
         this.privateKey = privKey;
         this.publicKey = pubKey;
         this.transactions = new ArrayList<>();
-        walletRegistry.put(pubKey, this);
+        String keyStr = Base64.getEncoder().encodeToString(pubKey.getEncoded());
+        walletRegistry.put(keyStr, this);  // Use encoded string as key
     }
 
     private void saveToFile() throws IOException {
@@ -145,7 +147,8 @@ public class User_Wallet {
     }
 
     public static User_Wallet getWalletByPublicKey(PublicKey publicKey) {
-        return walletRegistry.get(publicKey);
+        String keyStr = Base64.getEncoder().encodeToString(publicKey.getEncoded());
+        return walletRegistry.get(keyStr);
     }
 
     private boolean isSender(Transaction transaction) {
