@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.Scanner;
 import java.util.List;
 
@@ -8,14 +9,15 @@ public class UI {
         //String[] stringArg = {""};
 
         System.out.println("Blockchain System");
-        while (option != 6) {
+        while (option != 7) {
             System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             System.out.println("1: Create Account");
             System.out.println("2: Check Account Wallet");
             System.out.println("3: Transaction Generation");
             System.out.println("4: Verifiable Merkle Tree Of Transactions");
-            System.out.println("5: Integrity Verification");
-            System.out.println("6: Exit");
+            System.out.println("5: Mining a Block");
+            System.out.println("6: Integrity Verification");
+            System.out.println("7: Exit");
             System.out.print("Enter your choice: ");
             option = in.nextInt();
 
@@ -33,9 +35,12 @@ public class UI {
                     handleMerkleTree();
                     break;
                 case 5:
-                    handleIntegrityCheck();
+                    handleMining(in);
                     break;
                 case 6:
+                    handleIntegrityCheck();
+                    break;
+                case 7:
                     break;
                 default:
                     System.out.println("Invalid option!");
@@ -154,6 +159,39 @@ public class UI {
         } catch (Exception e) {
             System.out.println("Error generating Merkle Tree: " + e.getMessage());
         }
+    }
+
+    private static void handleMining(Scanner in) throws Exception {
+        System.out.println("\n--- Block Mining ---");
+        Transaction.loadAllTransactions();
+        List<Transaction> transactions = Transaction.getTransactionList();
+
+        if (transactions.isEmpty()) {
+            System.out.println("No transactions to mine!");
+            waitForBack(in);
+            return;
+        }
+
+        // Get previous block hash (simplified example)
+        String previousHash = "00000000000000000000000000000000"; // Default for first block
+        File blockFile = new File("block1.txt");
+        if (blockFile.exists()) {
+            Block previousBlock = Block.loadBlock("block1.txt");
+            previousHash = previousBlock.getHash();
+        }
+
+        // Create block with difficulty
+        int difficulty = 4; // Number of leading zeros required
+        Block block = new Block(previousHash, transactions, "Mined Block");
+        block.getHeader().mineBlock(difficulty);
+
+        // Save mined block
+        block.saveBlock("block1.txt");
+        System.out.println("\nBlock mined successfully!");
+        System.out.println("Hash: " + block.getHash());
+        System.out.println("Nonce: " + block.getNonce());
+
+        waitForBack(in);
     }
 
     private static void handleIntegrityCheck() throws Exception {

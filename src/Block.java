@@ -34,10 +34,6 @@ public class Block {
 
     // Save block to a file
     public void saveBlock(String fileName) throws IOException {
-        // Read the first line from root.txt
-        String root = Files.readAllLines(Paths.get("root.txt")).get(0);
-        header.merkleRoot = root; // Set the merkleRoot to the value from root.txt
-
         try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
             writer.println("HASH:" + header.hash);
             writer.println("PREVIOUS_HASH:" + header.previousHash);

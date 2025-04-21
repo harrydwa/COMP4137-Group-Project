@@ -24,6 +24,7 @@ public class BlockHeader {
         String dataToHash = previousHash
                 + Long.toString(timeStamp)
                 + Integer.toString(nonce)
+                + merkleRoot
                 + data;
         MessageDigest digest = null;
         byte[] bytes = null;
@@ -42,19 +43,15 @@ public class BlockHeader {
 
     }
 
-    public String mineBlock(int prefix) {
-        String prefixString = new String(new char[prefix]).replace('\0', '0'); // "00000" for difficulty 5
-        StringBuilder targetBuilder = new StringBuilder("0000"); // 64 hex characters
-        for (int i = 0; i < 60; i++) {
-            targetBuilder.append('f');
-        }
-        String target = targetBuilder.toString();
+    public String mineBlock(int difficulty) {
+        String target = new String(new char[difficulty]).replace('\0', '0');
+        String hash = calculateHash();
 
-        while (!hash.substring(0, prefix).equals(prefixString) &&  // Quick check - just compare first few characters
-                hash.compareTo(target) >= 0) {                     // Full check - must compare entire hash string
-            hash = calculateHash();
+        while(!hash.substring(0, difficulty).equals(target)) {
             nonce++;
+            hash = calculateHash();
         }
+        this.hash = hash;
         return hash;
     }
 
