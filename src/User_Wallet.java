@@ -27,7 +27,7 @@ public class User_Wallet {
 
 
     // Constructor for loaded wallets
-    private User_Wallet(String name, PrivateKey privKey, PublicKey pubKey) {
+    public User_Wallet(String name, PrivateKey privKey, PublicKey pubKey) {
         this.walletName = name;
         this.privateKey = privKey;
         this.publicKey = pubKey;

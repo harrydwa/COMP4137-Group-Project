@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -25,8 +24,8 @@ public class Main {
 
             Transaction tx1 = new Transaction(alice.getPublicKey(), bob.getPublicKey(), 20, alice.sign(10));
             Transaction tx2 = new Transaction(alice.getPublicKey(), bob.getPublicKey(), 20, alice.sign(20));
-            Transaction tx3 = new Transaction(alice.getPublicKey(), bob.getPublicKey(), 20, alice.sign(30));
-            Transaction tx4 = new Transaction(alice.getPublicKey(), bob.getPublicKey(), 20, alice.sign(40));
+//            Transaction tx3 = new Transaction(alice.getPublicKey(), bob.getPublicKey(), 20, alice.sign(30));
+//            Transaction tx4 = new Transaction(alice.getPublicKey(), bob.getPublicKey(), 20, alice.sign(40));
             //  number of transactions must be the power of 2
 
             // Print wallet states
@@ -38,11 +37,6 @@ public class Main {
             merkleTree.calculate();
 //            merkleTree.validmerkletree();
             System.out.println(merkleTree.getRoot());
-
-//            // Create transactions
-//            List<Transaction> transactions = new ArrayList<>();
-//            transactions.add(new Transaction(alice.getPublicKey(), bob.getPublicKey(), 10.0, alice.sign(10.0)));
-//            transactions.add(new Transaction(alice.getPublicKey(), bob.getPublicKey(), 20.0, alice.sign(20.0)));
 
             // Create a block
             Block block = new Block("previousHash", allTransactions, "Block Data");
