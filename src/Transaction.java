@@ -26,6 +26,7 @@ public class Transaction {
         allTransactions.add(this);
         saveToFile();  // Directly save without condition
     }
+
     public static List<Transaction> getTransactionList() {
         return allTransactions;
     }
@@ -41,16 +42,35 @@ public class Transaction {
     }
 
     private void saveToFile() {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(TX_FILE, true))) {
-            // Remove the size check condition
-            String sender = Base64.getEncoder().encodeToString(input.getEncoded());
-            String receiver = Base64.getEncoder().encodeToString(output.getEncoded());
-            String sig = Base64.getEncoder().encodeToString(data.getSignature());
-            writer.println(sender + "|" + receiver + "|" + data.getAmount() + "|" + sig + "|" + transactionId);
+        try {
+            // First check if this transaction already exists in the file
+            File file = new File(TX_FILE);
+            if (file.exists()) {
+                try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        String[] parts = line.split("\\|");
+                        if (parts.length > 0 && parts[parts.length - 1].equals(this.transactionId)) {
+                            // Transaction already exists in file, don't save again
+                            return;
+                        }
+                    }
+                }
+            }
+
+            // If we reach here, transaction doesn't exist in file, so save it
+            try (PrintWriter writer = new PrintWriter(new FileWriter(TX_FILE, true))) {
+                // Remove the size check condition
+                String sender = Base64.getEncoder().encodeToString(input.getEncoded());
+                String receiver = Base64.getEncoder().encodeToString(output.getEncoded());
+                String sig = Base64.getEncoder().encodeToString(data.getSignature());
+                writer.println(sender + "|" + receiver + "|" + data.getAmount() + "|" + sig + "|" + transactionId);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     public static List<Transaction> loadAllTransactions() throws Exception {
         if (!allTransactions.isEmpty()) return allTransactions;
@@ -105,11 +125,9 @@ public class Transaction {
     }
 
 
-
-
     public static String bytesToHex(byte[] bytes) {
         StringBuilder hexString = new StringBuilder();
-        for (byte b :bytes) {
+        for (byte b : bytes) {
             String hex = Integer.toHexString(0xff & b);
             if (hex.length() == 1) {
                 hexString.append('0');

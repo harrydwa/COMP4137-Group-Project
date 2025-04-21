@@ -6,7 +6,7 @@ public class Main {
         try {
             // Load existing data
             User_Wallet.loadAllWallets();
-//            Transaction.loadAllTransactions();
+            Transaction.loadAllTransactions();
             List<Transaction> allTransactions = Transaction.getTransactionList();
 
             // Get or create wallets
@@ -25,9 +25,9 @@ public class Main {
 
             Transaction tx1 = new Transaction(alice.getPublicKey(), bob.getPublicKey(), 20, alice.sign(10));
             Transaction tx2 = new Transaction(alice.getPublicKey(), bob.getPublicKey(), 20, alice.sign(20));
-            Transaction tx3 = new Transaction(alice.getPublicKey(), bob.getPublicKey(), 20, alice.sign(30));
-            Transaction tx4 = new Transaction(alice.getPublicKey(), bob.getPublicKey(), 20, alice.sign(40));
-            //  number of transactions must be the power of 2
+//            Transaction tx3 = new Transaction(alice.getPublicKey(), bob.getPublicKey(), 20, alice.sign(30));
+//            Transaction tx4 = new Transaction(alice.getPublicKey(), bob.getPublicKey(), 20, alice.sign(40));
+//            //  number of transactions must be the power of 2
 
             // Print wallet states
             alice.printTransactionHistory();
