@@ -37,8 +37,12 @@ public class IntegrityTest {
         // Modify transactions and compare hashes
         System.out.print("\n=== Modifying Transaction... ===");
         for (int i = 0; i < transactions.size(); i++) {
+
             // Modify transaction amount
-            transactions.get(i).getData().setAmount(new Random().nextDouble() * 200);
+            Double newAmount = new Random().nextDouble() * 200;
+            transactions.get(i).getData().setAmount(newAmount);
+            System.out.print("\nModified amount of " + transactions.get(i).getTransactionId() + " to " + newAmount + ".");
+
             String newHash = transactions.get(i).calculateTransactionId();
 
             System.out.println("\nTransaction " + i + ":");
@@ -61,25 +65,47 @@ public class IntegrityTest {
     }
 
     private static void testFalsifiedBlock() throws Exception {
+        System.out.println("\n=== Falsifying Block... ===");
+
         // Load the original block and store its values
         Block originalBlock = Block.loadBlock("block1.txt");
+        BlockHeader originalHeader = originalBlock.getHeader();
         String originalHash = originalBlock.getHash();
-        String originalMerkleRoot = originalBlock.getMerkleRoot();
         List<Transaction> transactions = originalBlock.getTransactions();
 
-        System.out.println("Original Block Values:");
+        // Calculate Merkle root for the original block to get the original root
+        Merkle_Tree OriginalMerkleTree = new Merkle_Tree(transactions);
+        OriginalMerkleTree.calculate();
+        String originalMerkleRoot = OriginalMerkleTree.getRoot();
+        originalHeader.merkleRoot = originalMerkleRoot;
+
+        System.out.println("\nOriginal Block Values:");
         System.out.println("  Block Hash: " + originalHash);
         System.out.println("  Merkle Root: " + originalMerkleRoot);
+        System.out.println("  Timestamp: " + originalHeader.timeStamp);
+        System.out.println("  Nonce: " + originalHeader.nonce);
+        System.out.println("  Data: " + originalHeader.data);
 
-        // Modify a transaction in the block
-        System.out.print("\n=== Falsifying Block... ===");
+        System.out.println("\n=== Modifying Block Information... ===");
+
+        // Modify transaction amount
         if (!transactions.isEmpty()) {
-            transactions.get(0).getData().setAmount(new Random().nextDouble() * 200);
-            System.out.println("\nModified first transaction amount");
+            Double newAmount = new Random().nextDouble() * 200;
+
+            transactions.get(0).getData().setAmount(newAmount);
+            System.out.println("Modified first amount of first transaction to " + newAmount + ".\n");
         }
 
-        // Create new block with modified transactions
-        Block modifiedBlock = new Block(originalBlock.getPreviousHash(), transactions, originalBlock.getHeader().data);
+        // Create modified block with different values
+        Block modifiedBlock = new Block(originalBlock.getPreviousHash(), transactions, "Modified Data");
+        BlockHeader modifiedHeader = modifiedBlock.getHeader();
+        modifiedHeader.timeStamp = System.currentTimeMillis();
+        modifiedHeader.nonce = originalHeader.nonce + 1;
+
+        // Calculate hash value of new Merkle root for modified block
+        Merkle_Tree modifiedMerkleTree = new Merkle_Tree(transactions);
+        modifiedMerkleTree.calculate();
+        modifiedHeader.merkleRoot = modifiedMerkleTree.getRoot();
 
         System.out.println("\nBlock Integrity Check:");
         System.out.println("  Original Block Hash: " + originalHash);
@@ -88,7 +114,12 @@ public class IntegrityTest {
 
         System.out.println("\nMerkle Root Comparison:");
         System.out.println("  Original Merkle Root: " + originalMerkleRoot);
-        System.out.println("  Modified Merkle Root: " + modifiedBlock.getMerkleRoot());
-        System.out.println("  Merkle Tree Modified?: " + !originalMerkleRoot.equals(modifiedBlock.getMerkleRoot()));
+        System.out.println("  Modified Merkle Root: " + modifiedHeader.merkleRoot);
+        System.out.println("  Merkle Tree Modified?: " + !originalMerkleRoot.equals(modifiedHeader.merkleRoot));
+
+        System.out.println("\nOther Modified Values:");
+        System.out.println("  Timestamp Modified?: " + (originalHeader.timeStamp != modifiedHeader.timeStamp));
+        System.out.println("  Nonce Modified?: " + (originalHeader.nonce != modifiedHeader.nonce));
+        System.out.println("  Data Modified?: " + !originalHeader.data.equals(modifiedHeader.data));
     }
 }
