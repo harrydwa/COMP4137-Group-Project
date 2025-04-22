@@ -18,6 +18,16 @@ public class Transaction {
 
     // Public constructor for NEW transactions
     public Transaction(PublicKey input, PublicKey output, double amount, byte[] signature) {
+        // Check sender balance before creating transaction
+        User_Wallet senderWallet = User_Wallet.getWalletByPublicKey(input);
+        if (senderWallet != null) {
+            double balance = senderWallet.getBalance();
+            if (balance < amount) {
+                throw new IllegalArgumentException("Insufficient funds in sender wallet. Balance: "
+                        + balance + ", Required: " + amount);
+            }
+        }
+
         this.input = input;
         this.output = output;
         this.data = new TransactionData(amount, signature);

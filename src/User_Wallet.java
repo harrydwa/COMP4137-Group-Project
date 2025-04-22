@@ -179,14 +179,15 @@ public class User_Wallet {
     }
 
     public double getBalance() {
-        double received = getTransactionsWhereReceiver().stream()
-                .mapToDouble(tx -> tx.getData().getAmount())
-                .sum();
-
-        double sent = getTransactionsWhereSender().stream()
-                .mapToDouble(tx -> tx.getData().getAmount())
-                .sum();
-
-        return received - sent;
+        double balance = 100.0;
+        for (Transaction tx : transactions) {
+            if (tx.isInput(this.publicKey)) {
+                balance -= tx.getData().getAmount();
+            }
+            if (tx.isOutput(this.publicKey)) {
+                balance += tx.getData().getAmount();
+            }
+        }
+        return balance;
     }
 }
