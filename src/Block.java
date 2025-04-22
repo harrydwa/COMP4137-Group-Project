@@ -23,6 +23,15 @@ public class Block {
         this.header.hash = this.header.calculateHash();
     }
 
+    public Block(String previousHash, List<Transaction> transactions, String data, String merkleRoot) throws IOException {
+        this.transactions = transactions;
+        this.header = new BlockHeader(previousHash, data);
+        //this.merkleTree = new Merkle_Tree(transactions);
+        //this.merkleTree.calculate();
+        this.header.merkleRoot = merkleRoot;
+        this.header.hash = this.header.calculateHash();
+    }
+
     public String getHash() { return header.hash; }
     public String getPreviousHash() { return header.previousHash; }
     public String getMerkleRoot() { return header.merkleRoot; }
@@ -57,7 +66,7 @@ public class Block {
             writer.println("NONCE:" + header.nonce);
             writer.println("DATA:" + header.data);
             writer.println("TRANSACTIONS:");
-            for (int i = 0; i < transactions.size() / 2; i++) {
+            for (int i = 0; i < transactions.size() - 2; i++) {
                 writer.println(serializeTransaction(transactions.get(i)));
             }
         }
@@ -92,9 +101,9 @@ public class Block {
                 }
             }
 
-            Block block = new Block(previousHash, transactions, data);
+            Block block = new Block(previousHash, transactions, data, merkleRoot);
             block.header.hash = hash;
-            block.header.merkleRoot = merkleRoot;
+            //block.header.merkleRoot = merkleRoot;
             block.header.timeStamp = timeStamp;
             block.header.nonce = nonce;
             return block;

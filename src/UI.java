@@ -184,7 +184,9 @@ public class UI {
 
         // Create block with difficulty
         int difficulty = 4; // Number of leading zeros required
-        Block block = new Block(previousHash, transactions, "Mined Block");
+        Scanner scanner = new Scanner(new File("root.txt"));
+        String root = scanner.nextLine();
+        Block block = new Block(previousHash, transactions, "Mined Block", root);
         block.getHeader().mineBlock(difficulty);
 
         // add mined block
