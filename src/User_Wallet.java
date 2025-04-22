@@ -179,7 +179,7 @@ public class User_Wallet {
     }
 
     public double getBalance() {
-        double balance = 100.0;
+        double balance = 10000.0;
         for (Transaction tx : transactions) {
             if (tx.isInput(this.publicKey)) {
                 balance -= tx.getData().getAmount();

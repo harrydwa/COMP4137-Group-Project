@@ -5,6 +5,7 @@ import java.util.List;
 public class UI {
     public static void main(String[] args) throws Exception {
         int option = 0;
+        int count = 1;
         Scanner in = new Scanner(System.in);
         //String[] stringArg = {""};
 
@@ -35,7 +36,8 @@ public class UI {
                     handleMerkleTree();
                     break;
                 case 5:
-                    handleMining(in);
+                    count++;
+                    handleMining(in, count);
                     break;
                 case 6:
                     handleIntegrityCheck();
@@ -161,7 +163,7 @@ public class UI {
         }
     }
 
-    private static void handleMining(Scanner in) throws Exception {
+    private static void handleMining(Scanner in, Integer count) throws Exception {
         System.out.println("\n--- Block Mining ---");
         Transaction.loadAllTransactions();
         List<Transaction> transactions = Transaction.getTransactionList();
@@ -185,8 +187,9 @@ public class UI {
         Block block = new Block(previousHash, transactions, "Mined Block");
         block.getHeader().mineBlock(difficulty);
 
-        // Save mined block
-        block.saveBlock("block1.txt");
+        // add mined block
+        String filename = "block" + count +".txt";
+        block.addBlock(filename);
         System.out.println("\nBlock mined successfully!");
         System.out.println("Hash: " + block.getHash());
         System.out.println("Nonce: " + block.getNonce());

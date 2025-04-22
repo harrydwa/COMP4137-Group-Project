@@ -18,7 +18,7 @@ public class Block {
         this.transactions = transactions;
         this.header = new BlockHeader(previousHash, data);
         this.merkleTree = new Merkle_Tree(transactions);
-//        this.merkleTree.calculate();
+        this.merkleTree.calculate();
         this.header.merkleRoot = this.merkleTree.getRoot();
         this.header.hash = this.header.calculateHash();
     }
@@ -44,6 +44,21 @@ public class Block {
             writer.println("TRANSACTIONS:");
             for (Transaction tx : transactions) {
                 writer.println(serializeTransaction(tx));
+            }
+        }
+    }
+
+    public void addBlock(String fileName) throws IOException {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
+            writer.println("HASH:" + header.hash);
+            writer.println("PREVIOUS_HASH:" + header.previousHash);
+            writer.println("MERKLE_ROOT:" + header.merkleRoot);
+            writer.println("TIMESTAMP:" + header.timeStamp);
+            writer.println("NONCE:" + header.nonce);
+            writer.println("DATA:" + header.data);
+            writer.println("TRANSACTIONS:");
+            for (int i = 0; i < transactions.size() / 2; i++) {
+                writer.println(serializeTransaction(transactions.get(i)));
             }
         }
     }

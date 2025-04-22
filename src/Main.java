@@ -25,8 +25,8 @@ public class Main {
             }
 
 
-//            Transaction tx3 = new Transaction(alice.getPublicKey(), bob.getPublicKey(), 20, alice.sign(30));
-//            Transaction tx4 = new Transaction(alice.getPublicKey(), bob.getPublicKey(), 20, alice.sign(40));
+            Transaction tx3 = new Transaction(alice.getPublicKey(), bob.getPublicKey(), 20, alice.sign(30));
+            Transaction tx4 = new Transaction(alice.getPublicKey(), bob.getPublicKey(), 20, alice.sign(40));
 //            //  number of transactions must be the power of 2
 
             // Print wallet states
