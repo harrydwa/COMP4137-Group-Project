@@ -1,8 +1,94 @@
+COMP4137 Blockchain Technology and Applications Programming Project: Implementation of a Mini Blockchain
+
+Group 11
+22230343 Ho Li Ming
+22236902 Chu Wai Ki
+22230424 Chan Yin Tat
+22232605 Keut Chun Ting
+22233806 Yip Hong Sun
+
+Abstract
 Implement the following basic components of blockchain: 
 (1) Transaction generation 
 (2) Verifiable Merkle tree of transactions 
 (3) Construction of blockchain 
 (4) Integrity verification of transactions and blockchains.
+
+This artifact contains code and datasets to reproduce the experiment results.
+
+Software architecture:
+Wallet Management: User_Wallet class for key pair generation and balance tracking
+Transaction System: Creation, signing, and verification of value transfers
+Block Processing: Block creation with headers and proof-of-work mining
+Verification: Merkle tree implementation and integrity verification system
+Txt file for data storage 
+
+Reproducibility:
+Running UI.java to test different components
+
+Artifact Dependencies and Requirements
+
+RAM: 4GB minimum (8GB recommended)
+CPU: Any modern dual-core processor (2GHz+)
+Storage: 1GB available space
+Network: Basic internet connection for multi-user testing
+
+Operating System: Windows 10/11, macOS 10.14+, Linux (Ubuntu 18.04+)
+Java: JDK 8 (1.8) or newer
+Dependencies: None (uses only standard Java libraries)
+java.security (for MessageDigest, KeyPairGenerator)
+java.nio (for file operations)
+java.util (for collections)
+
+Datesets are provided with the project (txt files)
+
+Artifact Installation and Deployment 
+
+Prerequisites
+
+Install Java JDK 8 (1.8) or newer
+Download from Oracle or use OpenJDK
+Verify installation with java -version
+
+Download
+Clone or download the project files
+git clone [repository-url] or download and extract the zip file
+
+Time estimate: Installation takes 1-5 minutes, depending on Java installation status.
+
+Running the Application
+Clone the project in a Java environment and run UI.java 
+
+The command-line interface will display options:
+1: Create Account
+2: Check Account Wallet
+3: Transaction Generation
+4: Verifiable Merkle Tree Of Transactions
+5: Mining a Block
+6: Integrity Verification
+7: Exit
+
+First-Time Setup
+Create at least two user wallets (option 1)
+Generate transactions between users (option 3)
+Verify transactions with the Merkle tree (option 4)
+Mine a block to finalize transactions (option 5)
+
+Time estimate: Deployment takes 3-5 minutes after compilation.
+
+4. Reproducibility of Experiments
+
+Workflow: List steps to reproduce experiments (e.g., "Run preprocess_data.py, then train_model.py").
+
+Execution Time: 5-15 minutes
+
+Expected Results: 
+
+Describe outputs:
+
+
+
+
 
 
 References:
