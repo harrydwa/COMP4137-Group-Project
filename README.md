@@ -68,7 +68,7 @@ The command-line interface will display options:
 6: Integrity Verification
 7: Exit
 
-First-Time Setup
+First-Time Setup:
 Create at least two user wallets (option 1)
 Generate transactions between users (option 3)
 Verify transactions with the Merkle tree (option 4)
@@ -76,7 +76,7 @@ Mine a block to finalize transactions (option 5)
 
 Time estimate: Deployment takes 3-5 minutes after compilation.
 
-4. Reproducibility of Experiments
+Reproducibility of Experiments
 
 Workflow: List steps to reproduce experiments (e.g., "Run preprocess_data.py, then train_model.py").
 
