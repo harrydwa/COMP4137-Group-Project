@@ -78,7 +78,7 @@ Time estimate: Deployment takes 3-5 minutes after compilation.
 
 Reproducibility of Experiments
 
-Workflow: List steps to reproduce experiments (e.g., "Run preprocess_data.py, then train_model.py").
+Workflow: 
 
 User Wallet Workflow
 Wallet Creation:
@@ -91,15 +91,13 @@ Wallet Loading:
 User_Wallet.loadAllWallets() loads all wallets at program startup
 Reconstructs key pairs from Base64-encoded strings
 Registers wallets in static registry for lookup
+
 Balance Management:
-
-
 Each wallet starts with 1000.0 balance
 Outgoing transactions decrease the balance
 Incoming transactions increase the balance
 
 Transaction Workflow
-
 Transaction Creation:
 User selects "Transaction Generation" (option 3)
 Enters sender username, receiver username, and amount
