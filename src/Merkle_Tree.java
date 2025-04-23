@@ -1,9 +1,11 @@
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class Merkle_Tree {
     class Node {
@@ -40,6 +42,13 @@ public class Merkle_Tree {
             NodeList.add(node);
 
         }
+    }
+    public void Addroottofile() throws IOException {
+        FileWriter writer =new FileWriter("root.txt");
+        PrintWriter out =new PrintWriter(writer);
+        out.println(root);
+        out.flush();
+        out.close();
     }
 
     public String getRoot() {
@@ -99,9 +108,18 @@ public class Merkle_Tree {
     }
 
 
-    private void calculateLeavesNode() {
+    private boolean calculateLeavesNode() throws FileNotFoundException {
+
+        if(checkValidForTransaction()){
+            System.out.println("Transaction is valid");
+        }
+        else{
+
+            return false;
+        }
         for (int i = 0; i < list.size(); i++) {
             String value = list.get(i).calculateTransactionId();
+            System.out.println(list.size());
             leavesnodelist.add(value);
             Node node = new Node(value);
             NodeList.add(node);
@@ -112,18 +130,45 @@ public class Merkle_Tree {
         }
 
         hashedonce = true;
+        return true ;
 
     }
+    private boolean checkValidForTransaction() throws FileNotFoundException {
+        File inputFile = new File("transactions.txt");
+        Scanner scanner = new Scanner(inputFile);
+        int index = 0;
 
-    private List<String> calculateRoot(List<String> ProcessList) {
+        while (scanner.hasNext()) {
+            String line = scanner.nextLine();
+            String[] parts = line.split("\\|");
+            System.out.println("the result is " + parts[parts.length - 1]);
+            String transactionID = parts[parts.length - 1];
+
+            if (!transactionID.equals(list.get(index).calculateTransactionId())) {
+                System.out.println("the transaction in index " + index + " is not valid");
+                return false;
+            }
+            index++;
+        }
+        if (scanner!=null){
+            scanner.close();
+        }
+
+
+        return true;
+    }
+
+    private List<String> calculateRoot(List<String> ProcessList) throws FileNotFoundException {
         List<String> list = new ArrayList<>();
         List<String> returnlist = new ArrayList<>();
         int currentindex = 0;
+
         if (ProcessList.size() == 1) { // if the ProcessList list only contain one element , it will be the root
             root = ProcessList.get(0);
             return ProcessList;
         }
-        for (int i = 0; i < ProcessList.size(); i += 2) {// change string to byte
+
+        for (int i = 0; i <ProcessList.size(); i += 2) {
             String appendString = ProcessList.get(i) + ProcessList.get(i + 1);
             list.add(appendString);
         }
@@ -133,6 +178,7 @@ public class Merkle_Tree {
                 currentindex = i;
                 break;
             }
+
         }
         for (int j = 0; j < list.size(); j++) {
             String value = generateSHA256Hash(list.get(j));
@@ -147,12 +193,21 @@ public class Merkle_Tree {
             NodeList.add(node);
             returnlist.add(value);
         }
+        if (returnlist.isEmpty()) {
+            throw new IllegalStateException("returnlist is empty.");
+        }
         return calculateRoot(returnlist);
     }
 
-    public void calculate() {
-        calculateLeavesNode();
-        calculateRoot(leavesnodelist);
+    public  void calculate() throws IOException {// for the valid , we will open a new method that dont contain addroototofile
+
+        if (calculateLeavesNode()) {
+            calculateRoot(leavesnodelist);
+            Addroottofile();
+        }
+        else{
+            System.out.println("transaction have been modified , will not generate merkle tree ");
+        }
     }
 
     public static String generateSHA256Hash(String inputInString) {
@@ -174,4 +229,44 @@ public class Merkle_Tree {
             throw new RuntimeException(e);
         }
     }
+    public void validmerkletree() throws FileNotFoundException {
+        leavesnodelist.clear();
+        NodeList.clear();
+        Node node = new Node(null);
+        NodeList.add(node);
+        if (calculateLeavesNode()) {
+            calculateRoot(leavesnodelist);
+            File inputFile = new File("root.txt");
+            Scanner scanner = new Scanner(inputFile);
+            String line = scanner.nextLine();
+            if(line.equals(root)){
+                System.out.println("Merkle tree is valid");
+            }
+            else{
+                System.out.println("Merkle tree is not valid");
+            }
+            scanner.close();
+        }
+        else{
+            System.out.println("transaction have been modified , will not generate merkle tree ");
+        }
+
+    }
+
+    public static void main(String[] args) throws Exception {
+        Transaction.loadAllTransactions();
+        List<Transaction> allTransactions = Transaction.getTransactionList();
+        System.out.println(allTransactions.size() + " transactions loaded.");
+        Merkle_Tree merkleTree = new Merkle_Tree(allTransactions);
+
+        try {
+            // Call the calculate method on the instance
+//            merkleTree.calculate();
+            merkleTree.validmerkletree();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }
