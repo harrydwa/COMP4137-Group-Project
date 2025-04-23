@@ -28,7 +28,7 @@ Running UI.java to test different components
 
 Artifact Dependencies and Requirements
 
-RAM: 4GB minimum (8GB recommended)
+RAM: 4GB minimum (8GB or more recommended)
 CPU: Any modern dual-core processor (2GHz+)
 Storage: 1GB available space
 Network: Basic internet connection for multi-user testing
@@ -40,7 +40,7 @@ java.security (for MessageDigest, KeyPairGenerator)
 java.nio (for file operations)
 java.util (for collections)
 
-Datesets are provided with the project (txt files)
+Datasets are provided with the project (txt files)
 
 Artifact Installation and Deployment 
 
