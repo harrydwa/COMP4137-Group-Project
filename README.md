@@ -80,7 +80,52 @@ Reproducibility of Experiments
 
 Workflow: List steps to reproduce experiments (e.g., "Run preprocess_data.py, then train_model.py").
 
-Execution Time: 5-15 minutes
+User Wallet Workflow
+Wallet Creation:
+User selects "Create Account" (option 1)
+Enters a username
+System generates EC keypair (secp256k1 curve)
+Wallet details saved to wallets.txt in format: username|publicKey|privateKey
+
+Wallet Loading:
+User_Wallet.loadAllWallets() loads all wallets at program startup
+Reconstructs key pairs from Base64-encoded strings
+Registers wallets in static registry for lookup
+Balance Management:
+
+
+Each wallet starts with 1000.0 balance
+Outgoing transactions decrease the balance
+Incoming transactions increase the balance
+
+Transaction Workflow
+
+Transaction Creation:
+User selects "Transaction Generation" (option 3)
+Enters sender username, receiver username, and amount
+System verifies sufficient funds
+Creates transaction with:
+Sender's public key
+Receiver's public key
+Amount
+Digital signature (SHA256withECDSA)
+Saves transaction to transaction pool
+
+Transaction Verification:
+Each transaction's signature is verified
+The transaction ID is calculated using SHA-256 hashing
+Displayed to user: "Transaction created successfully! TX ID: [hash]"
+Transaction Processing:
+
+When checking a wallet (option 2), users see:
+Current balance
+Transaction history (both sent and received)
+Transaction IDs
+Wallet identifier (abbreviated public key)
+
+This forms the foundation of the blockchain's value transfer system, with cryptographic security ensuring transaction authenticity.
+
+Total Execution Time: 5-15 minutes
 
 Expected Results: 
 
