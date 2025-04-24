@@ -123,6 +123,20 @@ Wallet identifier (abbreviated public key)
 
 This forms the foundation of the blockchain's value transfer system, with cryptographic security ensuring transaction authenticity.
 
+Merkle tree :
+First , we need to create a merkle object  and contain a list that contain all transactions.
+Second ,we need to call the merkle tree method caluclate().
+Third, we can calculate the leaves nodes after we valid each transaction.
+Fourth , we can calcualte the each non-leaaf node and root node floor by recursion .
+Fifth , we will store the root in the file for later check .
+Sixth , we can use the method  validmerkletree() to valid the root by calcualte the root again to check whether they are the same .
+
+Block workflow:
+Input the previous hash, all transactions and data to create a block. In the block , it will gerenate a block header which include
+hash, merkle tree root, previous hash, timestamp, nonce and data. There is a calculate hash function to create the hash using SHA-256. 
+Also, there is a mining block function for creating block.
+After a block created, it saves in the txt.file for record and it can get the block information by load block function. 
+
 Total Execution Time: 5-15 minutes
 
 
