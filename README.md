@@ -80,6 +80,17 @@ Reproducibility of Experiments
 
 Workflow: 
 
+System User Interface:
+Display UI menu
+Get user input
+Option 1: Create Account (Wallet Creation)
+Option 2: Check Wallet Amount (Checking a wallet)
+Option 3: Transaction Generation (Transaction Creation)
+Option 4: Verification of Merkle Tree (Merkle Tree)
+Option 5: Mining a Block (Block Mining workflow)
+Option 6: Integrity Test (Integrity Test workflow)
+Option 7: Exit
+
 User Wallet Workflow
 Wallet Creation:
 User selects "Create Account" (option 1)
@@ -137,6 +148,23 @@ hash, merkle tree root, previous hash, timestamp, nonce and data. There is a cal
 Also, there is a mining block function for creating block.
 After a block created, it saves in the txt.file for record and it can get the block information by load block function. 
 
+Block Mining workflow:
+First, load all transactions.
+Second, get the previous hash of the previous block and create a block header.
+Then, mine with Proof-of-Work(PoW)
+After that, the new block wll be generated and save to a new file.
+
+Integrity Test workflow:
+1. Test falsified transactions:
+   Get hash of original transactions data
+   Modify the transactions data
+   Get hash of the modified data
+   Compare the hashes of both original transactions data and modified transactions data
+2. Test falsified block:
+   Get original block data
+   Modify the block data
+   Get modified block
+   Compare the hash value of both original block and modified block
 Total Execution Time: 5-15 minutes
 
 
