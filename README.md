@@ -125,14 +125,6 @@ This forms the foundation of the blockchain's value transfer system, with crypto
 
 Total Execution Time: 5-15 minutes
 
-Expected Results: 
-
-Describe outputs:
-
-
-
-
-
 
 References:
 General usage:
